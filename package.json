@@ -1,6 +1,6 @@
 {
-  "name": "playing-actions-elements",
-  "description": "Game actions management web components for playful applications",
+  "name": "playing-process-elements",
+  "description": "Game process management web components for playful applications",
   "version": "1.0.0",
   "license": "MIT",
   "devDependencies": {
