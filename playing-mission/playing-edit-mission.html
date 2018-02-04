@@ -1,0 +1,106 @@
+<!--
+An element for creating and editing mission mission data.
+
+Example:
+
+    <playing-edit-mission mission=[[mission]] new></playing-edit-mission>
+
+@group Playing Elements
+@element playing-edit-mission
+-->
+<dom-module id="playing-edit-mission">
+  <template>
+    <style include="mostly-styles">
+      :host {
+        display: block;
+        width: 100%;
+      }
+    </style>
+
+    <div class="layout vertical">
+      <paper-input name="description" label="[[i18n('play.mission.field.description')]]"
+            value="{{mission.description}}" maxlength="300"
+            char-counter always-float-label></paper-input>
+      <playing-dropzone name="content"
+              label="[[i18n('play.mission.field.image')]]"
+              document="{{mission}}" xpath="image"></playing-dropzone>
+    </div>
+
+    <mostly-collapse-button>
+      <div slot="collapse-trigger">[[i18n('play.mission.advanced')]]</div>
+      <div slot="collapse-content">
+        <label>[[i18n('documentPage.tags')]]</label>
+        <playing-tag-suggestion document="[[mission]]" allow-new-tags
+                placeholder="[[i18n('documentPage.tags.placeholder')]]">
+        </playing-tag-suggestion>
+
+        <label>[[i18n('play.mission.field.constraints')]]</label>
+        <div class="form-row">
+          <div class="flex">
+            <paper-input name="constraints.minimum" label="[[i18n('play.mission.mission.constraints.minimum')]]"
+                  type="number" value="{{mission.constraints.minimum}}" always-float-label></paper-input>
+          </div>
+          <div class="flex">
+            <paper-input name="constraints.maximum" label="[[i18n('play.mission.mission.constraints.maximum')]]"
+                  type="number" value="{{mission.constraints.maximum}}" always-float-label></paper-input>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="flex">
+            <paper-input name="constraints.default" label="[[i18n('play.mission.mission.constraints.default')]]"
+                  type="number" value="{{mission.constraints.default}}" always-float-label></paper-input>
+          </div>
+          <div class="flex">&nbsp;</div>
+        </div>
+      </div>
+    </mostly-collapse-button>
+
+  </template>
+
+  <script>
+    class PlayingEditMission extends Polymer.mixinBehaviors([Mostly.I18nBehavior], Polymer.Element) {
+
+      static get is() { return 'playing-edit-mission' };
+
+      static get properties() {
+        return {
+          /**
+           * The mission object to be edited or created.
+           */
+          mission: {
+            type: Object,
+            value: {}
+          },
+
+          /**
+           * If true, a new mission is being created; if false, an already existing mission is being edited.
+           */
+          new: {
+            type: Boolean,
+            value: false
+          },
+
+          resultFormatter: {
+            type: Function,
+            value: function() {
+              return this._resultFormatter.bind(this);
+            }
+          }
+        }
+      }
+
+      /**
+       * Resets the form fields to empty values.
+       */
+      _resetFields() {
+        this.mission = { constraints: {} };
+      }
+
+      _resultFormatter(item) {
+        return item.name;
+      }
+    }
+
+    customElements.define(PlayingEditMission.is, PlayingEditMission);
+  </script>
+</dom-module>

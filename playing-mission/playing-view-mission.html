@@ -1,0 +1,92 @@
+<!--
+An element for displaying mission data.
+
+Example:
+
+    <playing-view-mission mission=[[mission]] new></playing-view-mission>
+
+@group Playing Elements
+@element playing-view-mission
+-->
+<dom-module id="playing-view-mission">
+  <template>
+    <style include="mostly-styles">
+      :host {
+        display: block;
+      }
+
+      *[role=widget] {
+        margin-bottom: 16px;
+      }
+
+      label {
+        @apply --mostly-label;
+      }
+
+      div.multiline {
+        white-space: pre-line;
+      }
+
+      div {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        -o-hyphens: auto;
+        hyphens: auto;
+      }
+    </style>
+    
+    <div role="widget" hidden$="[[!mission.description]]">
+      <label>[[i18n('play.mission.field.description')]]</label>
+      <div name="description" class="multiline">[[mission.description]]</div>
+    </div>
+
+    <div role="widget" hidden$="[[!mission.image]]">
+      <label>[[i18n('play.mission.field.image')]]</label>
+      <img id="image" src$="[[mission.image.url]]">
+    </div>
+
+    <div role="widget">
+      <label>[[i18n('play.mission.field.constraints')]]</label>
+      <div class="table">
+        <div class="table-header">
+          <div class="flex">[[i18n('play.mission.constraints.minimum')]]</div>
+          <div class="flex">[[i18n('play.mission.constraints.maximum')]]</div>
+          <div class="flex">[[i18n('play.mission.constraints.default')]]</div>
+        </div>
+        <div class="table-rows">
+          <div class="table-row">
+            <div class="flex">[[mission.constraints.minimum]]</div>
+            <div class="flex">[[mission.constraints.maximum]]</div>
+            <div class="flex">[[mission.constraints.default]]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    class PlayingViewMission extends Polymer.mixinBehaviors([Mostly.I18nBehavior], Polymer.Element) {
+
+      static get is() { return 'playing-view-mission' };
+
+      static get properties() {
+        return {
+          /**
+           * The mission object to be displayed.
+           */
+          mission: {
+            type: Object,
+            value: {}
+          }
+        }
+      }
+    }
+
+    customElements.define(PlayingViewMission.is, PlayingViewMission);
+  </script>
+</dom-module>

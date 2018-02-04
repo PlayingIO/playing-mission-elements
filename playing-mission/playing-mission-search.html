@@ -1,0 +1,160 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+<link rel="import" href="../../iron-icons/editor-icons.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../paper-item/paper-icon-item.html">
+<link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../paper-listbox/paper-listbox.html">
+<link rel="import" href="../../paper-menu-button/paper-menu-button.html">
+
+<link rel="import" href="../../mostly-elements/mostly-common/mostly-resource.html">
+<link rel="import" href="../../mostly-elements/widgets/mostly-pagination-controls.html">
+
+<!--
+`playing-mission-search`
+@group Playing Elements
+@element playing-mission-search
+-->
+<dom-module id="playing-mission-search">
+  <template>
+    <style include="mostly-styles">
+      :host {
+        display: block;
+        @apply --playing-mission-search-layout;
+      }
+
+      .search {
+        width: calc(100% - 11rem);
+      }
+
+      .title {
+        margin: 0 0 .8em;
+        padding: 0;
+      }
+
+      .fade-6 {
+        opacity: 0.6;
+      }
+
+      .counter {
+        margin-right: 2em;
+      }
+
+      h3 iron-icon {
+        width: 1.3em;
+        margin-right: .2rem;
+      }
+
+      paper-card {
+        @apply --mostly-card;
+      }
+
+    </style>
+
+    <mostly-resource id="missionSearch" auto
+            path="missions"
+            response="{{missions}}"></mostly-resource>
+
+    <paper-card class="search">
+      <paper-input noink autofocus="true" value="{{searchTerm}}" type="search"
+              placeholder="[[i18n('play.mission.search.placeholder')]]">
+        <iron-icon icon="mostly:search" prefix></iron-icon>
+      </paper-input>
+    </paper-card>
+
+    <!-- missions -->
+    <paper-card name="missions">
+      <h3 class="title">
+        <iron-icon icon="mostly:mission" prefix></iron-icon>  [[i18n('play.mission.heading')]]
+      </h3>
+      <div class="fade-6">
+        <p>[[i18n('play.mission.guide.search')]]</p>
+      </div>
+      <div class="table">
+        <div class="table-header">
+          <div class="flex-2">[[i18n('play.mission.field.name')]]</div>
+          <div class="flex-4">[[i18n('play.mission.field.description')]]</div>
+        </div>
+        <div class="table-rows">
+          <template is="dom-repeat" items="[[missions.data]]" as="item">
+            <div class="table-row" on-tap="_manageMission">
+              <div class="flex-2">[[item.name]]</div>
+              <div class="flex-4">[[item.description]]</div>
+            </div>
+          </template>
+          <template is="dom-if" if=[[_empty(missions.data)]]>
+            <div class="table-row">
+              <div class="empty-result">[[i18n('play.mission.search.empty')]]</div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <mostly-pagination-controls page="{{missionsCurrentPage}}" number-of-pages="[[missions.numberOfPages]]"></mostly-pagination-controls>
+    </paper-card>
+
+  </template>
+
+  <script>
+    class PlayingMissionSearch extends Polymer.mixinBehaviors([Mostly.I18nBehavior], Polymer.Element) {
+
+      static get is() { return 'playing-mission-search' };
+
+      static get properties() {
+        return {
+          searchTerm: {
+            type: String,
+            value: '',
+            observer: '_searchTermChanged',
+            notify: true
+          },
+
+          missions: Object,
+
+          missionsCurrentPage: {
+            type: 'Number',
+            value: 1
+          },
+
+          currentPageSize: {
+            type: 'Number',
+            value: 10
+          }
+        };
+      }
+
+      static get observers() {
+        return [
+          '_searchMissions(missionsCurrentPage)'
+        ];
+      }
+
+      _searchTermChanged() {
+        this.missionsCurrentPage = 1;
+        this.currentPageSize = 10;
+        this._searchMissions();
+      }
+
+      _searchMissions() {
+        var params = {
+          '$skip': (this.missionsCurrentPage - 1) * this.currentPageSize
+        };
+        if (this.searchTerm) {
+          params['name[$like]'] = this.searchTerm;
+        }
+        this.$.missionSearch.params = params;
+      }
+
+      _manageMission(e) {
+        this.fire('manageMission', { mission: e.model.item });
+      }
+
+      _empty(entries) {
+        return entries && entries.length === 0;
+      }
+
+    }
+
+    customElements.define(PlayingMissionSearch.is, PlayingMissionSearch);
+  </script>
+</dom-module>
