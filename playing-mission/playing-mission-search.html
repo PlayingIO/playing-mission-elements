@@ -71,7 +71,7 @@
               <div class="flex-4">[[item.description]]</div>
             </div>
           </template>
-          <template is="dom-if" if=[[_empty(missions.data)]]>
+          <template is="dom-if" if=[[!missions.data.length]]>
             <div class="table-row">
               <div class="empty-result">[[i18n('play.mission.search.empty')]]</div>
             </div>
@@ -135,10 +135,6 @@
 
       _manageMission(e) {
         this.fire('manageMission', { mission: e.model.item });
-      }
-
-      _empty(entries) {
-        return entries && entries.length === 0;
       }
 
     }
