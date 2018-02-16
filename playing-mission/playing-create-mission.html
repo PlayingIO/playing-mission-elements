@@ -149,6 +149,7 @@
       }
 
       _goHome() {
+        this._resetFields();
         this.fire('goHome');
       }
 
@@ -190,7 +191,6 @@
       }
 
       _cancel() {
-        this._resetFields();
         this._goHome();
       }
 
