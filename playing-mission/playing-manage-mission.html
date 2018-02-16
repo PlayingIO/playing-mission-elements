@@ -15,8 +15,7 @@
 <link rel="import" href="../../mostly-elements/widgets/mostly-input.html">
 <link rel="import" href="../../playing-elements/playing-styles.html">
 
-<link rel="import" href="playing-edit-mission.html">
-<link rel="import" href="playing-view-mission.html">
+<link rel="import" href="../behaviors/playing-mission-behavior.html">
 
 <!--
 An element for managing a mission.
@@ -185,7 +184,7 @@ Example:
 
   <script>
     class PlayingManageMission extends Polymer.mixinBehaviors(
-        [Mostly.I18nBehavior, Mostly.FiltersBehavior, Mostly.FuncBehavior], Polymer.Element) {
+        [Mostly.I18nBehavior, Mostly.FiltersBehavior, Playing.MissionBehavior], Polymer.Element) {
 
       static get is() { return 'playing-manage-mission' };
 
@@ -212,6 +211,11 @@ Example:
            * original mission object
            */
           origMission: Object,
+
+          path: {
+            type: String,
+            computed: 'missionPath(mission)'
+          },
 
           empty: Boolean,
 

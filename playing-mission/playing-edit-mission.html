@@ -1,3 +1,5 @@
+<link rel="import" href="../behaviors/playing-mission-behavior.html">
+
 <!--
 An element for creating and editing mission mission data.
 
@@ -61,7 +63,8 @@ Example:
   </template>
 
   <script>
-    class PlayingEditMission extends Polymer.mixinBehaviors([Mostly.I18nBehavior], Polymer.Element) {
+    class PlayingEditMission extends Polymer.mixinBehaviors(
+        [Mostly.I18nBehavior, Playing.MissionBehavior], Polymer.Element) {
 
       static get is() { return 'playing-edit-mission' };
 

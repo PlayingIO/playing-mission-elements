@@ -12,6 +12,8 @@
 <link rel="import" href="../../mostly-elements/widgets/mostly-pagination-controls.html">
 <link rel="import" href="../../playing-elements/playing-styles.html">
 
+<link rel="import" href="../behaviors/playing-mission-behavior.html">
+
 <!--
 `playing-mission-search`
 @group Playing Elements
@@ -81,7 +83,8 @@
   </template>
 
   <script>
-    class PlayingMissionSearch extends Polymer.mixinBehaviors([Mostly.I18nBehavior], Polymer.Element) {
+    class PlayingMissionSearch extends Polymer.mixinBehaviors(
+        [Mostly.I18nBehavior, Playing.MissionBehavior], Polymer.Element) {
 
       static get is() { return 'playing-mission-search' };
 

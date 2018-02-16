@@ -29,6 +29,19 @@
         mission: this.mission,
         "new": true
       };
+    },
+
+    emptyMission() {
+      return { constraints: {} };
+    },
+
+    resetFields() {
+      this.mission = this.emptyMission();
+      this.errors = '';
+    },
+
+    hasErrors() {
+      return this.errors !== '';
     }
   }];
 </script>

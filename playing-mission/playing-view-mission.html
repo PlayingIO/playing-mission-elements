@@ -1,3 +1,5 @@
+<link rel="import" href="../behaviors/playing-mission-behavior.html">
+
 <!--
 An element for displaying mission data.
 
@@ -55,7 +57,8 @@ Example:
   </template>
 
   <script>
-    class PlayingViewMission extends Polymer.mixinBehaviors([Mostly.I18nBehavior], Polymer.Element) {
+    class PlayingViewMission extends Polymer.mixinBehaviors(
+        [Mostly.I18nBehavior, Playing.MissionBehavior], Polymer.Element) {
 
       static get is() { return 'playing-view-mission' };
 

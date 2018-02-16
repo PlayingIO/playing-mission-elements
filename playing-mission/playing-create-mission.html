@@ -15,7 +15,7 @@
 <link rel="import" href="../../mostly-elements/widgets/mostly-input.html">
 <link rel="import" href="../../playing-elements/playing-styles.html">
 
-<link rel="import" href="playing-edit-mission.html">
+<link rel="import" href="../behaviors/playing-mission-behavior.html">
 
 <!--
 `playing-create-mission`
@@ -98,7 +98,7 @@
             </paper-button>
           </div>
 
-          <span id="errors" hidden$="[[!_hasErrors(errors)]]">[[errors]]</span>
+          <span id="errors" hidden$="[[!hasErrors(errors)]]">[[errors]]</span>
 
         </form>
       </iron-form>
@@ -107,7 +107,8 @@
   </template>
 
   <script>
-    class PlayingCreateMission extends Polymer.mixinBehaviors([Mostly.I18nBehavior], Polymer.Element) {
+    class PlayingCreateMission extends Polymer.mixinBehaviors(
+        [Mostly.I18nBehavior, Playing.MissionBehavior], Polymer.Element) {
 
       static get is() { return 'playing-create-mission' };
 
@@ -115,7 +116,9 @@
         return {
           mission: {
             type: Object,
-            value: () => { return { constraints: {} } }
+            value() {
+              return this.emptyMission();
+            }
           },
 
           errors: {
@@ -146,7 +149,7 @@
       }
 
       _goHome() {
-        this._resetFields();
+        this.resetFields();
         this.fire('goHome');
       }
 
@@ -171,7 +174,7 @@
        */
       _create() {
         this._doCreate(this.mission).then((mission) => {
-          this._resetFields();
+          this.resetFields();
           if (!this._createAnother) {
             this._goHome();
           }
@@ -189,15 +192,6 @@
 
       _cancel() {
         this._goHome();
-      }
-
-      _resetFields() {
-        this.mission = {};
-        this.errors = '';
-      }
-
-      _hasErrors() {
-        return this.errors !== '';
       }
     }
 
