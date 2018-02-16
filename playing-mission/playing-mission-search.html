@@ -10,6 +10,7 @@
 
 <link rel="import" href="../../mostly-elements/mostly-common/mostly-resource.html">
 <link rel="import" href="../../mostly-elements/widgets/mostly-pagination-controls.html">
+<link rel="import" href="../../playing-elements/playing-styles.html">
 
 <!--
 `playing-mission-search`
@@ -18,7 +19,7 @@
 -->
 <dom-module id="playing-mission-search">
   <template>
-    <style include="mostly-styles">
+    <style include="mostly-styles playing-styles">
       :host {
         display: block;
         @apply --playing-mission-search-layout;
@@ -31,10 +32,6 @@
       .title {
         margin: 0 0 .8em;
         padding: 0;
-      }
-
-      .fade-6 {
-        opacity: 0.6;
       }
 
       h3 iron-icon {
