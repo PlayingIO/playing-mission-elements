@@ -1,0 +1,34 @@
+<link rel="import" href="../../mostly-elements/behaviors/mostly-func-behavior.html">
+
+<script>
+  var Playing = Playing || {};
+
+  /**
+   * @polymerBehavior Playing.MissionBehavior
+   */
+  Playing.MissionBehavior = [Mostly.FuncBehavior, {
+
+    properties: {
+      
+    },
+
+    missionPath(mission) {
+      if (mission && mission.id) {
+        return 'missions/' + mission.id;
+      } else {
+        return 'missions/' + mission;
+      }
+    },
+
+    layoutHref(layout) {
+      return layout && this.resolveUrl(`playing-${layout}-mission.html`);
+    },
+
+    layoutModel() {
+      return {
+        mission: this.mission,
+        "new": true
+      };
+    }
+  }];
+</script>
