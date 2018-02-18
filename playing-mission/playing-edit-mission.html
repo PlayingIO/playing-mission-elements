@@ -1,3 +1,4 @@
+<link rel="import" href="../../playing-rule-elements/playing-rule/playing-edit-conditions.html">
 <link rel="import" href="../behaviors/playing-mission-behavior.html">
 
 <!--
@@ -26,10 +27,19 @@ Example:
       <mostly-input name="description" label="[[i18n('play.mission.field.description')]]"
             value="{{mission.description}}" maxlength="300"
             char-counter always-float-label></mostly-input>
+
       <playing-dropzone name="image" role="widget"
               label="[[i18n('play.mission.field.image')]]"
               document="{{mission}}" xpath="image"></playing-dropzone>
     </div>
+
+    <!-- access -->
+    <label role="widget">[[i18n('play.mission.access')]]</label>
+    <mostly-buttons-group role="widget" multi attr-for-selected="name" selected-values="{{mission.access}}">
+      <paper-button name="public">[[i18n('play.mission.access.public')]]</paper-button>
+      <paper-button name="protected">[[i18n('play.mission.access.protected')]]</paper-button>
+      <paper-button name="private">[[i18n('play.mission.access.private')]]</paper-button>
+    </mostly-buttons-group>
 
     <mostly-collapse-button role="widget">
       <div slot="collapse-trigger">[[i18n('play.mission.advanced')]]</div>
@@ -39,23 +49,30 @@ Example:
                 placeholder="[[i18n('playing.tags.placeholder')]]">
         </playing-tag-suggestion>
 
-        <label>[[i18n('play.mission.field.constraints')]]</label>
+        <label>[[i18n('play.mission.creation')]]</label>
+        <span class="fade-6">[[i18n('play.mission.creation.placeholder')]]</span>
+        <playing-edit-conditions data="{{mission.settings.requires}}"></playing-edit-conditions>
+
+        <label role="widget">[[i18n('play.mission.restrictions')]]</label>
         <div class="form-row">
           <div class="flex">
-            <paper-input name="minimum" label="[[i18n('play.mission.mission.constraints.minimum')]]"
-                  type="number" value="{{mission.constraints.minimum}}" always-float-label></paper-input>
+            <mostly-input name="maxMissions" label="[[i18n('play.mission.restrictions.maxMissions')]]"
+                  type="number" value="{{mission.settings.maxMissions}}" always-float-label></mostly-input>
           </div>
           <div class="flex">
-            <paper-input name="maximum" label="[[i18n('play.mission.mission.constraints.maximum')]]"
-                  type="number" value="{{mission.constraints.maximum}}" always-float-label></paper-input>
+            <mostly-input name="maxActive" label="[[i18n('play.mission.restrictions.maxActive')]]"
+                  type="number" value="{{mission.settings.maxActive}}" always-float-label></mostly-input>
           </div>
         </div>
         <div class="form-row">
           <div class="flex">
-            <paper-input name="default" label="[[i18n('play.mission.mission.constraints.default')]]"
-                  type="number" value="{{mission.constraints.default}}" always-float-label></paper-input>
+            <mostly-input name="maxPlayerMissions" label="[[i18n('play.mission.restrictions.maxPlayerMissions')]]"
+                  type="number" value="{{mission.settings.maxPlayerMissions}}" always-float-label></mostly-input>
           </div>
-          <div class="flex">&nbsp;</div>
+          <div class="flex">
+            <mostly-input name="maxPlayerActive" label="[[i18n('play.mission.restrictions.maxPlayerActive')]]"
+                   type="number" value="{{mission.settings.maxPlayerActive}}" always-float-label></mostly-input>
+           </div>
         </div>
       </div>
     </mostly-collapse-button>
