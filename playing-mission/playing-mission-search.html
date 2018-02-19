@@ -42,9 +42,8 @@
       }
     </style>
 
-    <mostly-resource id="missionSearch" auto
-            path="missions"
-            response="{{missions}}"></mostly-resource>
+    <mostly-resource id="searchRequest" path="missions"
+            response-data="{{missions}}" auto></mostly-resource>
 
     <mostly-card class="search">
       <mostly-input noink autofocus="true" value="{{searchTerm}}" type="search"
@@ -64,20 +63,20 @@
           <div class="flex-4">[[i18n('play.mission.field.description')]]</div>
         </div>
         <div class="table-rows">
-          <template is="dom-repeat" items="[[missions.data]]" as="item">
+          <template is="dom-repeat" items="[[missions]]" as="item">
             <div class="table-row" on-tap="_manageMission">
               <div class="flex-2">[[item.name]]</div>
               <div class="flex-4">[[item.description]]</div>
             </div>
           </template>
-          <template is="dom-if" if=[[!missions.data.length]]>
+          <template is="dom-if" if=[[!missions.length]]>
             <div class="table-row">
               <div class="empty-result">[[i18n('play.mission.search.empty')]]</div>
             </div>
           </template>
         </div>
       </div>
-      <mostly-pagination-controls page="{{missionsCurrentPage}}" number-of-pages="[[missions.numberOfPages]]"></mostly-pagination-controls>
+      <mostly-pagination-controls page="{{currentPage}}" number-of-pages="[[missions.numberOfPages]]"></mostly-pagination-controls>
     </mostly-card>
 
   </template>
@@ -99,7 +98,7 @@
 
           missions: Object,
 
-          missionsCurrentPage: {
+          currentPage: {
             type: Number,
             value: 1
           },
@@ -113,24 +112,24 @@
 
       static get observers() {
         return [
-          '_searchMissions(missionsCurrentPage)'
+          '_searchMissions(currentPage)'
         ];
       }
 
       _searchTermChanged() {
-        this.missionsCurrentPage = 1;
+        this.currentPage = 1;
         this.currentPageSize = 10;
         this._searchMissions();
       }
 
       _searchMissions() {
         var params = {
-          '$skip': (this.missionsCurrentPage - 1) * this.currentPageSize
+          '$skip': (this.currentPage - 1) * this.currentPageSize
         };
         if (this.searchTerm) {
           params['name[$like]'] = this.searchTerm;
         }
-        this.$.missionSearch.params = params;
+        this.$.searchRequest.params = params;
       }
 
       _manageMission(e) {
