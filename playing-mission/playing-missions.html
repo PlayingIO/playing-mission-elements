@@ -75,7 +75,7 @@ An element for managing missions in Playing game services.
 
           <section name="manage-mission">
             <playing-manage-mission id="missionManager"
-                    mission="[[selectedMission.id]]"
+                    mission="[[selectedMission]]"
                     readonly$="[[readonly]]"></playing-manage-mission>
           </section>
         </iron-pages>
@@ -91,6 +91,11 @@ An element for managing missions in Playing game services.
 
       static get properties() {
         return {
+          visible: {
+            type: Boolean,
+            observer: '_visibleChanged'
+          },
+
           /**
            * The mission manage page to be displayed.
            */
@@ -98,6 +103,19 @@ An element for managing missions in Playing game services.
             type: String,
             value: 'search',
             notify: true
+          },
+
+          entity: {
+            type: Object,
+            value: {},
+            observer: '_entityChanged'
+          },
+
+          /**
+           * Selected team id.
+           */
+          selectedTeam: {
+            type: String
           },
 
           /**
@@ -122,6 +140,27 @@ An element for managing missions in Playing game services.
         this.addEventListener('manageMission', this._manageMission);
       }
 
+      _entityChanged() {
+        if (!this.visible) return;
+        if (this.entity && this.entity.id && this.entity.type) {
+          if (this.entity.type === 'mission') {
+            this.selectedMission = null;
+            this.selectedMission = this.entity.id;
+            this.page = 'manage-mission';
+          }
+        } else {
+          this.$$('playing-mission-search')._searchTermChanged();
+        }
+      }
+
+      _visibleChanged() {
+        if (this.visible) {
+          this.async(() => {
+            this._entityChanged();
+          });
+        }
+      }
+
       /**
        * Go to the 'search' page.
        */
@@ -141,9 +180,8 @@ An element for managing missions in Playing game services.
       }
 
       _manageMission(e) {
-        this.selectedMission = null;
-        this.selectedMission = e.detail.mission;
-        this.page = 'manage-mission';
+        var url = 'mission-management/mission/' + e.detail.mission;
+        this.navigateTo('play', url);
       }
 
       _hasAdministrationPermissions(user) {
