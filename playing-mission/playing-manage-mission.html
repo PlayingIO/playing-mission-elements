@@ -77,16 +77,18 @@ Example:
       <div id="errors" hidden$="[[!errors]]">[[errors]]</div>
 
       <iron-pages selected="[[page]]" attr-for-selected="id">
+
         <section id="viewer">
-          <mostly-layout id="viewerLayout" href="[[_layoutHref('view')]]"
-                  model="[[_layoutModel(mission, new)]]"></mostly-layout>
+          <mostly-layout id="viewerLayout" href="[[layoutHref('mission', 'view')]]"
+                  model="[[layoutModel(mission, new)]]"></mostly-layout>
         </section>
+
         <section id="editor">
           <h3>[[i18n('play.mission.editMission.heading')]]</h3>
           <iron-form id="editMissionForm">
             <form class="vertical layout">
-              <mostly-layout id="viewerLayout" href="[[_layoutHref('edit')]]"
-                      model="[[_layoutModel(mission, new)]]"></mostly-layout>
+              <mostly-layout id="viewerLayout" href="[[layoutHref('mission', 'edit')]]"
+                      model="[[layoutModel(mission, new)]]"></mostly-layout>
             </form>
           </iron-form>
           <div class="horizontal end-justified layout">
@@ -98,6 +100,23 @@ Example:
             </paper-button>
           </div>
         </section>
+
+      </iron-pages>
+    </mostly-card>
+
+    <!-- activites -->
+    <mostly-card>
+      <iron-pages selected="[[page]]" attr-for-selected="id">
+        <section id="viewer">
+          <mostly-layout id="viewerLayout" href="[[layoutHref('activities', 'view')]]"
+                  model="[[layoutModel(mission, new)]]"></mostly-layout>
+        </section>
+
+        <section id="editor">
+          <mostly-layout id="viewerLayout" href="[[layoutHref('activities', 'edit')]]"
+                  model="[[layoutModel(mission, new)]]"></mostly-layout>
+        </section>
+      </iron-pages>
     </mostly-card>
 
     <mostly-dialog id="deleteMissionDialog" with-backdrop>
@@ -155,6 +174,11 @@ Example:
             reflectToAttribute: true
           },
 
+          showEditActivites: {
+            type: Boolean,
+            value: false
+          },
+
           errors: {
             type: String,
             reflectToAttribute: true
@@ -177,17 +201,6 @@ Example:
             this.origMission = this.fp.clone(this.mission);
           });
         }
-      }
-
-      _layoutHref(layout) {
-        return layout && this.resolveUrl(`playing-${layout}-mission.html`);
-      }
-
-      _layoutModel() {
-        return {
-          mission: this.mission,
-          "new": true
-        };
       }
 
       _toggleDialog(e) {
@@ -231,6 +244,10 @@ Example:
           this.fire('playing-mission-deleted', this.mission);
           this._goHome();
         });
+      }
+
+      _toggleEditActivites() {
+        this.showEditActivites = !this.showEditActivites;
       }
 
       _goHome() {

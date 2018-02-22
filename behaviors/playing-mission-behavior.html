@@ -20,8 +20,8 @@
       }
     },
 
-    layoutHref(layout) {
-      return layout && this.resolveUrl(`playing-${layout}-mission.html`);
+    layoutHref(type, layout) {
+      return layout && this.resolveUrl(`playing-${layout}-${type}.html`);
     },
 
     layoutModel() {
@@ -32,7 +32,7 @@
     },
 
     emptyMission() {
-      return { access: [], settings: {} };
+      return { access: [], activites: [], settings: {} };
     },
 
     resetFields() {

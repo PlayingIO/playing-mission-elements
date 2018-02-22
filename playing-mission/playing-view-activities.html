@@ -1,0 +1,85 @@
+<link rel="import" href="../../playing-rule-elements/playing-rule/playing-view-conditions.html">
+<link rel="import" href="../../playing-rule-elements/playing-rule/playing-view-rewardsets.html">
+<link rel="import" href="../behaviors/playing-mission-behavior.html">
+
+<!--
+An element for displaying activities.
+
+Example:
+
+    <playing-view-activities data=[[activities]]></playing-view-activities>
+
+@group Playing Elements
+@element playing-view-activities
+-->
+<dom-module id="playing-view-activities">
+  <template>
+    <style include="mostly-styles playing-styles">
+      :host {
+        display: block;
+        margin-bottom: 16px;
+      }
+    </style>
+
+    <mostly-resource id="metrics" path="metrics" response-data="{{metrics}}" auto cached="60"></mostly-resource>
+
+    <!-- rewards & conditions -->
+    <div role="widget">
+      <div class="table">
+
+        <div class="table-header">
+          <div class="flex-1">[[i18n('play.mission.activity.name')]]</div>
+          <div class="flex-2">[[i18n('play.mission.activity.description')]]</div>
+          <div class="flex-1">[[i18n('play.mission.activity.lane')]]</div>
+          <div class="flex-1">[[i18n('play.mission.activity.rewards')]]</div>
+          <div class="flex-1">[[i18n('play.mission.activity.loop')]]</div>
+        </div>
+
+        <div class="table-rows">
+          <template is="dom-repeat" items="[[data]]" as="activity">
+            <div class="table-row start">
+              <div class="flex-1">
+                <playing-view-rewards data="[[activity.rewards]]"></playing-view-rewards>
+              </div>
+              <div class="flex-3">
+                <playing-view-conditions data="[[activity.requires]]"></playing-view-conditions>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <template is="dom-if" if=[[!data.length]]>
+          <div class="form-row">
+            <div class="empty-result">[[i18n('play.mission.activity.empty')]]</div>
+          </div>
+        </template>
+
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    class PlayingViewActivities extends Polymer.mixinBehaviors(
+        [Mostly.I18nBehavior, Playing.MissionBehavior], Polymer.Element) {
+
+      static get is() { return 'playing-view-activities' };
+
+      static get properties() {
+        return {
+          /**
+           * The activities array to be displayed.
+           */
+          data: {
+            type: Array,
+            value: []
+          },
+
+          metrics: Object
+        }
+      }
+    }
+
+    customElements.define(PlayingViewActivities.is, PlayingViewActivities);
+  </script>
+</dom-module>
