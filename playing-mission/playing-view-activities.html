@@ -7,7 +7,7 @@ An element for displaying activities.
 
 Example:
 
-    <playing-view-activities data=[[activities]]></playing-view-activities>
+    <playing-view-activities activites=[[activities]]></playing-view-activities>
 
 @group Playing Elements
 @element playing-view-activities
@@ -36,7 +36,7 @@ Example:
         </div>
 
         <div class="table-rows">
-          <template is="dom-repeat" items="[[data]]" as="activity">
+          <template is="dom-repeat" items="[[activites]]" as="activity">
             <div class="table-row start">
               <div class="flex-1">
                 <playing-view-rewards data="[[activity.rewards]]"></playing-view-rewards>
@@ -48,7 +48,7 @@ Example:
           </template>
         </div>
 
-        <template is="dom-if" if=[[!data.length]]>
+        <template is="dom-if" if=[[!activites.length]]>
           <div class="form-row">
             <div class="empty-result">[[i18n('play.mission.activity.empty')]]</div>
           </div>
@@ -70,7 +70,7 @@ Example:
           /**
            * The activities array to be displayed.
            */
-          data: {
+          activites: {
             type: Array,
             value: []
           },

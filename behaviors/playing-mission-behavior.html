@@ -9,7 +9,10 @@
   Playing.MissionBehavior = [Mostly.FuncBehavior, {
 
     properties: {
-      
+      activiteTypes: {
+        type: Array,
+        value: ['single', 'sequential', 'parallel', 'exclusive']
+      }
     },
 
     missionPath(mission) {
@@ -28,6 +31,12 @@
       return {
         mission: this.mission,
         "new": true
+      };
+    },
+
+    layoutActivities() {
+      return {
+        activites: this.mission && this.mission.activites
       };
     },
 
