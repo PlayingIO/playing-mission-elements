@@ -17,14 +17,6 @@ Example:
       :host {
         display: block;
       }
-
-      *[role=widget] {
-        margin-bottom: 16px;
-      }
-
-      label {
-        @apply --mostly-label;
-      }
     </style>
     
     <div role="widget" hidden$="[[!mission.description]]">
@@ -54,31 +46,25 @@ Example:
       </div>
     </template>
 
-    <div role="widget">
-      <label role="widget">[[i18n('play.mission.restrictions')]]</label>
-      <div class="table">
-        <div class="table-rows">
-          <div class="table-row">
-            <div class="flex-1">[[i18n('play.mission.restrictions.maxMissions')]]</div>
-            <div class="flex-2">[[mission.settings.maxMissions]]</div>
+    <mostly-collapse-button role="widget">
+      <div slot="collapse-trigger">[[i18n('play.mission.restrictions')]]</div>
+      <div slot="collapse-content">
+        <div class="table">
+          <div class="table-rows">
+            <div class="table-row">
+              <div class="flex">[[i18n('play.mission.restrictions.maxMissions')]]</div>
+              <div class="flex">[[mission.settings.maxMissions]]</div>
+              <div class="flex">[[i18n('play.mission.restrictions.maxActive')]]</div>
+              <div class="flex">[[mission.settings.maxActive]]</div>
+            </div>
           </div>
-        </div>
-        <div class="table-rows">
-          <div class="table-row">
-            <div class="flex-1">[[i18n('play.mission.restrictions.maxActive')]]</div>
-            <div class="flex-2">[[mission.settings.maxActive]]</div>
-          </div>
-        </div>
-        <div class="table-rows">
-          <div class="table-row">
-            <div class="flex-1">[[i18n('play.mission.restrictions.maxPlayerMissions')]]</div>
-            <div class="flex-2">[[mission.settings.maxPlayerMissions]]</div>
-          </div>
-        </div>
-        <div class="table-rows">
-          <div class="table-row">
-            <div class="flex-1">[[i18n('play.mission.restrictions.maxPlayerActive')]]</div>
-            <div class="flex-2">[[mission.settings.maxPlayerActive]]</div>
+          <div class="table-rows">
+            <div class="table-row">
+              <div class="flex">[[i18n('play.mission.restrictions.maxPlayerMissions')]]</div>
+              <div class="flex">[[mission.settings.maxPlayerMissions]]</div>
+              <div class="flex">[[i18n('play.mission.restrictions.maxPlayerActive')]]</div>
+              <div class="flex">[[mission.settings.maxPlayerActive]]</div>
+            </div>
           </div>
         </div>
       </div>
