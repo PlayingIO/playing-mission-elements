@@ -114,7 +114,7 @@ Example:
           <mostly-layout id="viewerLayout" href="[[layoutHref('activities', 'view')]]"
                   model="[[layoutModel(mission, new)]]"></mostly-layout>
           -->
-          <playing-view-activities data="{{mission.activities}}"></playing-view-activities>
+          <playing-view-activities data="{{mission.activities}}" lanes="[[mission.lanes]]"></playing-view-activities>
         </section>
 
         <section id="editor">
@@ -122,7 +122,7 @@ Example:
           <mostly-layout id="viewerLayout" href="[[layoutHref('activities', 'edit')]]"
                   model="[[layoutModel(mission, new)]]"></mostly-layout>
           -->
-          <playing-edit-activities data="{{mission.activities}}"></playing-edit-activities>
+          <playing-edit-activities data="{{mission.activities}}" lanes="[[mission.lanes]]"></playing-edit-activities>
           
           <div class="horizontal end-justified layout">
             <div class="flex start-justified">
