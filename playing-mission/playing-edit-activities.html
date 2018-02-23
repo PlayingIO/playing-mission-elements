@@ -1,3 +1,4 @@
+<link rel="import" href="../../playing-action-elements/playing-action/playing-edit-rate.html">
 <link rel="import" href="../../playing-rule-elements/playing-rule/playing-edit-conditions.html">
 <link rel="import" href="../../playing-rule-elements/playing-rule/playing-edit-rewardsets.html">
 <link rel="import" href="../behaviors/playing-mission-behavior.html">
@@ -96,14 +97,25 @@ Example:
                         value="{{activity.description}}" maxlength="300"
                         char-counter always-float-label></mostly-input>
               </div>
-            </div>
-            <div class="form-row border">
               <div class="flex">
+                <mostly-input name="threshold" label="[[i18n('play.mission.activity.loop')]]"
+                        placeholder="Infinite"
+                        type="number" value="{{activity.loop}}"></mostly-input>
+              </div>
+              <div class="form-actions">&nbsp;</div>
+            </div>
+
+            <template is="dom-if" if="[[isEmpty(activity.loop)]]" restamp>
+              <playing-edit-rate rate="{{activity.rate}}"></playing-edit-rate>
+            </template>
+
+            <div class="form-row border">
+              <div class="flex-3">
                 <!-- conditions -->
                 <label>[[i18n('play.mission.activity.requires')]]</label>
                 <playing-edit-conditions data="{{activity.requires}}"></playing-edit-conditions>
               </div>
-              <div class="flex">
+              <div class="flex-2">
                 <!-- rewards -->
                 <label>[[i18n('play.mission.activity.rewards')]]</label>
                 <playing-edit-rewards data="{{activity.rewards}}"></playing-edit-rewards>
@@ -156,10 +168,7 @@ Example:
 
       _addActivity() {
         this.set('data', this.data || []);
-        this.push('data', {
-          rewards: [{ metric: null }],
-          requires: [{ rule: null }]
-        });
+        this.push('data', { rewards: [], requires: [], loop: 0, rate: {} });
       }
 
       _removeActivity(e) {
