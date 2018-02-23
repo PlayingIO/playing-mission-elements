@@ -35,7 +35,12 @@
     },
 
     emptyMission() {
-      return { access: [], activites: [], settings: {} };
+      return {
+        access: [],
+        activites: [],
+        lanes: [{ name: 'Main', default: true }],
+        settings: {}
+      };
     },
 
     resetFields() {

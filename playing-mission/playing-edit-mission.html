@@ -1,6 +1,7 @@
 <link rel="import" href="../../playing-rule-elements/playing-rule/playing-edit-conditions.html">
 <link rel="import" href="../behaviors/playing-mission-behavior.html">
 <link rel="import" href="playing-edit-activities.html">
+<link rel="import" href="playing-edit-lanes.html">
 
 <!--
 An element for creating and editing mission mission data.
@@ -28,15 +29,24 @@ Example:
       <playing-dropzone name="image" role="widget"
               label="[[i18n('play.mission.field.image')]]"
               document="{{mission}}" xpath="image"></playing-dropzone>
-    </div>
 
-    <!-- access -->
-    <label role="widget">[[i18n('play.mission.access')]]</label>
-    <mostly-buttons-group role="widget" multi attr-for-selected="name" selected-values="{{mission.access}}">
-      <paper-button name="public">[[i18n('play.mission.access.public')]]</paper-button>
-      <paper-button name="protected">[[i18n('play.mission.access.protected')]]</paper-button>
-      <paper-button name="private">[[i18n('play.mission.access.private')]]</paper-button>
-    </mostly-buttons-group>
+      <div class="form-row top">
+        <div class="flex">
+          <!-- access -->
+          <h3 role="widget">[[i18n('play.mission.access')]]</h3>
+          <mostly-buttons-group role="widget" multi attr-for-selected="name" selected-values="{{mission.access}}">
+            <paper-button name="public">[[i18n('play.mission.access.public')]]</paper-button>
+            <paper-button name="protected">[[i18n('play.mission.access.protected')]]</paper-button>
+            <paper-button name="private">[[i18n('play.mission.access.private')]]</paper-button>
+          </mostly-buttons-group>
+        </div>
+        <div class="flex">
+          <!-- lanes -->
+          <playing-edit-lanes data="{{mission.lanes}}"></playing-edit-lanes>
+        </div>
+      </div>
+
+    </div>
 
     <mostly-collapse-button role="widget">
       <div slot="collapse-trigger">[[i18n('play.mission.advanced')]]</div>

@@ -1,0 +1,92 @@
+<link rel="import" href="../behaviors/playing-mission-behavior.html">
+
+<!--
+An element for add and editing lanes
+
+Example:
+
+    <playing-edit-lanes data=[[lanes]]></playing-edit-lanes>
+
+@group Playing Elements
+@element playing-edit-lanes
+-->
+<dom-module id="playing-edit-lanes">
+  <template>
+    <style include="mostly-styles playing-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <!-- lanes -->
+    <div class="layout vertical" role="widget">
+      <div class="layout horizontal center">
+        <h3 class="flex">[[i18n('play.mission.lanes')]]</h3>
+        <paper-button noink id="AddLane" class="flex-end" on-tap="_AddLane">
+          <iron-icon icon="mostly:add"></iron-icon> [[i18n('play.mission.lanes.create')]]
+        </paper-button>
+      </div>
+
+      <div class="table-header">
+        <div class="flex-9">[[i18n('play.mission.lane.name')]]</div>
+        <div class="flex-1 center">[[i18n('play.mission.lane.default')]]</div>
+        <div class="form-actions">&nbsp;</div>
+      </div>
+
+      <template is="dom-repeat" items="{{data}}" as="lane">
+        <div class="form-row">
+          <div class="flex-9">
+            <mostly-input value="{{lane.name}}" required></mostly-input>
+          </div>
+          <div class="flex-1 center">
+            <mostly-toggle-icon icon="playing:cross" icon-checked="playing:tick"
+                    checked="{{lane.default}}"></mostly-toggle-icon>
+          </div>
+          <div class="form-actions">
+            <iron-icon icon="mostly:remove" class="remove" data-index="[[index]]" on-tap="_removeLane"></iron-icon>
+          </div>
+        </div>
+      </template>
+
+      <template is="dom-if" if=[[!data.length]]>
+        <div class="form-row">
+          <div class="empty-result">[[i18n('play.mission.lanes.empty')]]</div>
+        </div>
+      </template>
+
+    </div>
+
+  </template>
+
+  <script>
+    class PlayingEditLanes extends Polymer.mixinBehaviors(
+        [Mostly.I18nBehavior, Playing.MissionBehavior], Polymer.Element) {
+
+      static get is() { return 'playing-edit-lanes' };
+
+      static get properties() {
+        return {
+          /**
+           * The lanes array to be added or edited.
+           */
+          data: {
+            type: Array,
+            value: () => [],
+            notify: true
+          }
+        }
+      }
+
+      _AddLane() {
+        this.set('data', this.data || []);
+        this.push('data', { name: null, default: false });
+      }
+
+      _removeLane(e) {
+        this.splice('data', e.target.dataIndex, 1);
+      }
+    }
+
+    customElements.define(PlayingEditLanes.is, PlayingEditLanes);
+  </script>
+</dom-module>
