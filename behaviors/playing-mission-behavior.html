@@ -43,6 +43,16 @@
       };
     },
 
+    nodeIcon(type) {
+      switch(type) {
+        case 'single': return 'playing:task';
+        case 'sequential': return 'playing:mission';
+        case 'parallel': return 'playing:parallel';
+        case 'exclusive': return 'playing:exclusive';
+        default: return 'playing:node';
+      }
+    },
+
     resetFields() {
       this.mission = this.emptyMission();
       this.errors = '';
