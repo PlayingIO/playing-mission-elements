@@ -16,6 +16,8 @@
 <link rel="import" href="../../playing-elements/playing-styles.html">
 
 <link rel="import" href="../behaviors/playing-mission-behavior.html">
+<link rel="import" href="playing-edit-activities.html">
+<link rel="import" href="playing-view-activities.html">
 
 <!--
 An element for managing a mission.
@@ -108,13 +110,19 @@ Example:
     <mostly-card>
       <iron-pages selected="[[page]]" attr-for-selected="id">
         <section id="viewer">
+          <!-- TODO two-way binding with layout
           <mostly-layout id="viewerLayout" href="[[layoutHref('activities', 'view')]]"
                   model="[[layoutModel(mission, new)]]"></mostly-layout>
+          -->
+          <playing-view-activities data="{{mission.activities}}"></playing-view-activities>
         </section>
 
         <section id="editor">
+          <!-- TODO two-way binding with layout
           <mostly-layout id="viewerLayout" href="[[layoutHref('activities', 'edit')]]"
                   model="[[layoutModel(mission, new)]]"></mostly-layout>
+          -->
+          <playing-edit-activities data="{{mission.activities}}"></playing-edit-activities>
         </section>
       </iron-pages>
     </mostly-card>

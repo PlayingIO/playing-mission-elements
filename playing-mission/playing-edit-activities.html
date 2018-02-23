@@ -7,7 +7,7 @@ An element for creating and editing mission activities data.
 
 Example:
 
-    <playing-edit-activities activites=[[activites]] new></playing-edit-activities>
+    <playing-edit-activities data=[[activites]] new></playing-edit-activities>
 
 @group Playing Elements
 @element playing-edit-activities
@@ -39,7 +39,7 @@ Example:
         </paper-button>
       </div>
 
-      <template is="dom-repeat" items="{{activites}}" as="activity">
+      <template is="dom-repeat" items="{{data}}" as="activity">
         <div class="drag-n-drop">
           <div class="form-row">
             <div class="flex">
@@ -126,7 +126,7 @@ Example:
         </div>
       </template>
 
-      <template is="dom-if" if=[[!activites.length]]>
+      <template is="dom-if" if=[[!data.length]]>
         <div class="form-row">
           <div class="empty-result">[[i18n('play.mission.activity.empty')]]</div>
         </div>
@@ -146,7 +146,7 @@ Example:
           /**
            * The activities array.
            */
-          activites: {
+          data: {
             type: Array,
             value: [],
             notify: true
@@ -155,15 +155,15 @@ Example:
       }
 
       _addActivity() {
-        this.set('activites', this.activites || []);
-        this.push('activites', {
+        this.set('data', this.data || []);
+        this.push('data', {
           rewards: [{ metric: null }],
           requires: [{ rule: null }]
         });
       }
 
       _removeActivity(e) {
-        this.splice('activites', e.currentTarget.dataIndex, 1);
+        this.splice('data', e.currentTarget.dataIndex, 1);
       }
     }
 
