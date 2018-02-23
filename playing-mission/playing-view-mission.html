@@ -31,11 +31,22 @@ Example:
 
     <!-- access -->
     <div role="widget">
-      <label role="widget">[[i18n('play.mission.access')]]</label>
       <div class="layout horizontal">
-        <template is="dom-repeat" items="[[mission.access]]" as="item">
-          <mostly-tag>[[p18n('play.mission.access', item)]]</mostly-tag>
-        </template>
+        <div class="flex">
+          <label role="widget">[[i18n('play.mission.access')]]</label>
+          <template is="dom-repeat" items="[[mission.access]]" as="item">
+            <mostly-tag>[[p18n('play.mission.access', item)]]</mostly-tag>
+          </template>
+        </div>
+        <div class="flex">
+          <label role="widget">[[i18n('play.mission.lanes')]]</label>
+          <template is="dom-repeat" items="[[mission.lanes]]" as="item">
+            <mostly-tag>
+              [[item.name]]
+              <template is="dom-if" if="[[item.default]]"><spanc class="red">*</span></template>
+            </mostly-tag>
+          </template>
+        </div>
       </div>
     </div>
 
