@@ -1,3 +1,4 @@
+<link rel="import" href="../../playing-action-elements/playing-action/playing-view-rate.html">
 <link rel="import" href="../../playing-rule-elements/playing-rule/playing-view-conditions.html">
 <link rel="import" href="../../playing-rule-elements/playing-rule/playing-view-rewardsets.html">
 <link rel="import" href="../behaviors/playing-mission-behavior.html">
@@ -7,7 +8,7 @@ An element for displaying activities.
 
 Example:
 
-    <playing-view-activities activites=[[activities]]></playing-view-activities>
+    <playing-view-activities data=[[activities]]></playing-view-activities>
 
 @group Playing Elements
 @element playing-view-activities
@@ -25,36 +26,84 @@ Example:
 
     <!-- rewards & conditions -->
     <div role="widget">
-      <div class="table">
+      <div class="layout horizontal center">
+        <h3 class="flex">[[i18n('play.mission.activities')]]</h3>
+      </div>
 
-        <div class="table-header">
-          <div class="flex-1">[[i18n('play.mission.activity.name')]]</div>
-          <div class="flex-2">[[i18n('play.mission.activity.description')]]</div>
-          <div class="flex-1">[[i18n('play.mission.activity.lane')]]</div>
-          <div class="flex-1">[[i18n('play.mission.activity.rewards')]]</div>
-          <div class="flex-1">[[i18n('play.mission.activity.loop')]]</div>
-        </div>
+      <div class="table-header">
+        <div class="flex-1">[[i18n('play.mission.activity.name')]]</div>
+        <div class="flex-1">[[i18n('play.mission.activity.type')]]</div>
+        <div class="flex-2">[[i18n('play.mission.activity.description')]]</div>
+        <div class="flex-1">[[i18n('play.mission.activity.lane')]]</div>
+        <div class="flex-1">[[i18n('play.mission.activity.loop')]]</div>
+      </div>
 
-        <div class="table-rows">
-          <template is="dom-repeat" items="[[activites]]" as="activity">
-            <div class="table-row start">
-              <div class="flex-1">
+      <div class="table-rows">
+        <template is="dom-repeat" items="[[data]]" as="activity">
+          <div class="table-row">
+            <div class="flex-1">
+              <iron-icon icon="[[nodeIcon(activity.type)]]" slot="prefix"></iron-icon>
+              [[activity.name]]
+            </div>
+            <div class="flex-1">[[p18n('play.mission.activity.type', activity.type)]]</div>
+            <div class="flex-2">[[activity.description]]</div>
+            <div class="flex-1">[[activity.lane]]</div>
+            <div class="flex-1">[[activity.loop]]</div>
+          </div>
+
+          <template is="dom-if" if="[[isEmpty(activity.loop)]]" restamp>
+            <div class="form-row">
+              <div class="flex-1">&nbsp;</div>
+              <div class="flex-5">
+                <label>[[i18n('play.mission.activity.rate')]]</label>
+                <playing-view-rate rate="[[activity.rate]]"></playing-view-rate>
+              </div>
+            </div>
+          </template>
+
+          <template is="dom-if" if="[[isEqual(activity.type, 'single')]]" restamp>
+            <div class="form-row">
+              <div class="flex-1">&nbsp;</div>
+              <div class="flex-5">
+                <label>[[i18n('play.mission.activity.rewards')]]</label>
                 <playing-view-rewards data="[[activity.rewards]]"></playing-view-rewards>
               </div>
-              <div class="flex-3">
+            </div>
+            <div class="form-row border">
+              <div class="flex-1">&nbsp;</div>
+              <div class="flex-5">
+                <label>[[i18n('play.mission.activity.requires')]]</label>
                 <playing-view-conditions data="[[activity.requires]]"></playing-view-conditions>
               </div>
             </div>
           </template>
-        </div>
 
-        <template is="dom-if" if=[[!activites.length]]>
-          <div class="form-row">
-            <div class="empty-result">[[i18n('play.mission.activity.empty')]]</div>
-          </div>
+          <template is="dom-if" if="[[isNotEqual(activity.type, 'single')]]" restamp>
+            <div class="form-row">
+              <div class="flex-1">&nbsp;</div>
+              <div class="flex-5">
+                <label>[[i18n('play.mission.activity.requires')]]</label>
+                <playing-view-conditions data="[[activity.requires]]"></playing-view-conditions>
+              </div>
+            </div>
+            <div class="form-row border">
+              <div class="flex-1">&nbsp;</div>
+              <div class="flex-5">
+                <div role="grouped">
+                  <playing-view-activities data="{{activity.activities}}"></playing-view-activities>
+                </div>
+              </div>
+            </div>
+          </template>
         </template>
-
       </div>
+
+      <template is="dom-if" if=[[!data.length]]>
+        <div class="form-row">
+          <div class="empty-result">[[i18n('play.mission.activity.empty')]]</div>
+        </div>
+      </template>
+
     </div>
 
   </template>
@@ -70,7 +119,7 @@ Example:
           /**
            * The activities array to be displayed.
            */
-          activites: {
+          data: {
             type: Array,
             value: []
           },
