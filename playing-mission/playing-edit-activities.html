@@ -92,17 +92,29 @@ Example:
                       value="{{activity.description}}" maxlength="300"
                       char-counter always-float-label></mostly-input>
             </div>
-            <div class="flex-1">
-              <mostly-input name="threshold" label="[[i18n('play.mission.activity.loop')]]"
-                      placeholder="Infinite" disabled$="[[!isEqual(activity.type, 'single')]]"
-                      type="number" value="{{activity.loop}}"></mostly-input>
-            </div>
-            <div class="flex-1">
-              <paper-checkbox name="activityRetry" checked="{{activity.retry}}" noink>
-                [[i18n('play.mission.activity.retry')]]
-                <span class="subtitle">[[i18n('play.mission.activity.retry.subtitle')]]</span>
-              </paper-checkbox>
-            </div>
+            <template is="dom-if" if="[[isEqual(activity.type, 'single')]]" restamp>
+              <div class="flex-1">
+                <mostly-input name="threshold"
+                        label="[[i18n('play.mission.activity.loop')]]"
+                        placeholder="Infinite"
+                        type="number" value="{{activity.loop}}"></mostly-input>
+              </div>
+              <div class="flex-1">
+                <paper-checkbox name="activityRetry" checked="{{activity.retry}}" noink>
+                  [[i18n('play.mission.activity.retry')]]
+                  <span class="subtitle">[[i18n('play.mission.activity.retry.subtitle')]]</span>
+                </paper-checkbox>
+              </div>
+            </template>
+            <template is="dom-if" if="[[!isEqual(activity.type, 'single')]]" restamp>
+              <div class="flex-1">
+                <paper-checkbox name="activityRetry" checked="{{activity.retry}}" noink>
+                  [[i18n('play.mission.activity.retry')]]
+                  <span class="subtitle">[[i18n('play.mission.activity.retry.subtitle')]]</span>
+                </paper-checkbox>
+              </div>
+              <div class="flex-1">&nbsp;</div>
+            </template>
             <div class="form-actions">&nbsp;</div>
           </div>
 
