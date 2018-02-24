@@ -51,7 +51,7 @@ Example:
             <div class="flex-1">[[activity.loop]] <i class="icon-loop" hidden$="[[!isNil(activity.loop)]]"></i></div>
           </div>
 
-          <template is="dom-if" if="[[isEmpty(activity.loop)]]" restamp>
+          <template is="dom-if" if="[[activity.rate]]" restamp>
             <div class="form-row">
               <div class="flex-1">&nbsp;</div>
               <div class="flex-5">
