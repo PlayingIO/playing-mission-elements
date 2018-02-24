@@ -48,7 +48,7 @@ Example:
             <div class="flex-1">[[p18n('play.mission.activity.type', activity.type)]]</div>
             <div class="flex-2">[[activity.description]]</div>
             <div class="flex-1">[[activity.lane]]</div>
-            <div class="flex-1">[[activity.loop]]</div>
+            <div class="flex-1">[[activity.loop]] <i class="icon-loop" hidden$="[[!isNil(activity.loop)]]"></i></div>
           </div>
 
           <template is="dom-if" if="[[isEmpty(activity.loop)]]" restamp>
