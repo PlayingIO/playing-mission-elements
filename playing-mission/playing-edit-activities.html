@@ -98,7 +98,7 @@ Example:
                       type="number" value="{{activity.loop}}"></mostly-input>
             </div>
             <div class="flex-1">
-              <paper-checkbox name="itemHidden" value="{{activity.retry}}" noink>
+              <paper-checkbox name="activityRetry" value="{{activity.retry}}" noink>
                 [[i18n('play.mission.activity.retry')]]
                 <span class="subtitle">[[i18n('play.mission.activity.retry.subtitle')]]</span>
               </paper-checkbox>
@@ -121,7 +121,7 @@ Example:
                   </div>
                   <div class="flex">
                     <!-- rewards -->
-                    <playing-edit-rewards data="{{activity.rewards}}"></playing-edit-rewards>
+                    <playing-edit-rewards data="{{activity.rewards}}" more-options targets="[[targets]]"></playing-edit-rewards>
                   </div>
                   <div class="form-actions">&nbsp;</div>
                 </div>
@@ -176,6 +176,14 @@ Example:
           },
 
           /**
+           * resolution targets of current activities
+           */
+          targets: {
+            type: Array,
+            computed: '_targetActivities(data)'
+          },
+
+          /**
            * Lanes array
            */
           lanes: {
@@ -194,6 +202,10 @@ Example:
           [`data.${index}.rate`]: {},
           [`data.${index}.opened`]: true
         });
+      }
+
+      _targetActivities() {
+        return R.map(R.prop('name'), this.data || []);
       }
 
       _addActivity() {
