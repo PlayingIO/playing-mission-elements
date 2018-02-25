@@ -2,6 +2,7 @@
 <link rel="import" href="../../playing-rule-elements/playing-rule/playing-edit-conditions.html">
 <link rel="import" href="../../playing-rule-elements/playing-rule/playing-edit-rewardsets.html">
 <link rel="import" href="../behaviors/playing-mission-behavior.html">
+<link rel="import" href="playing-edit-notify-target.html">
 
 <!--
 An element for creating and editing mission activities data.
@@ -33,6 +34,13 @@ Example:
       *[role=grouped] {
         padding-left: 1em;
         border-left: 2px solid #ddd;
+      }
+
+      playing-edit-rate,
+      playing-edit-notify-target {
+        --mostly-collapse-content-style: {
+          padding-left: 1em;
+        };
       }
     </style>
 
@@ -118,10 +126,12 @@ Example:
             <div class="form-actions">&nbsp;</div>
           </div>
 
+          <!-- rate limiting -->
           <template is="dom-if" if="[[isEmpty(activity.loop)]]" restamp>
             <playing-edit-rate rate="{{activity.rate}}"></playing-edit-rate>
           </template>
 
+          <!-- single activity -->
           <template is="dom-if" if="[[isEqual(activity.type, 'single')]]" restamp>
             <mostly-collapse-button role="widget" opened="{{activity.opened}}">
               <div slot="collapse-trigger">[[i18n('play.mission.activity.rewardsets')]]</div>
@@ -140,6 +150,7 @@ Example:
               </mostly-collapse-button>
           </template>
 
+          <!-- node activity -->
           <template is="dom-if" if="[[isNotEqual(activity.type, 'single')]]" restamp>
             <mostly-collapse-button role="widget" opened="{{activity.opened}}">
               <div slot="collapse-trigger">[[i18n('play.mission.activity.activities')]]</div>
@@ -158,6 +169,9 @@ Example:
               </div>
             </mostly-collapse-button>
           </template>
+
+          <!-- notify -->
+          <playing-edit-notify-target notify="{{activity.notify}}" lanes="[[lanes]]"></playing-edit-notify-target>
         </div>
       </template>
 

@@ -12,6 +12,16 @@
       activiteTypes: {
         type: Array,
         value: ['single', 'sequential', 'parallel', 'exclusive']
+      },
+
+      targetTypes: {
+        type: Array,
+        value: ['self', 'team_mates', 'mission_members', 'all']
+      },
+
+      targetRoles: {
+        type: Array,
+        value: ['player', 'observer']
       }
     },
 
@@ -39,6 +49,7 @@
         access: [],
         activites: [],
         lanes: [{ name: 'Main', default: true }],
+        notify: { target: { requires: [], roles: [] } },
         settings: {}
       };
     },

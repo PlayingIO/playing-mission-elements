@@ -1,0 +1,170 @@
+<link rel="import" href="../../playing-rule-elements/playing-rule/playing-edit-conditions.html">
+<link rel="import" href="../behaviors/playing-mission-behavior.html">
+
+<!--
+An element for creating and editing target data.
+
+Example:
+
+    <playing-edit-notify-target notify=[[notify]] new></playing-edit-notify-target>
+
+@group Playing Elements
+@element playing-edit-notify-target
+-->
+<dom-module id="playing-edit-notify-target">
+  <template>
+    <style include="mostly-styles playing-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <mostly-collapse-button role="widget" opened="[[opened]]">
+      <div slot="collapse-trigger">[[i18n('play.mission.notify')]]</div>
+      <div slot="collapse-content">
+        <!-- message -->
+        <div class="form-row">
+          <div class="flex">
+            <mostly-input name="subject" label="[[i18n('play.mission.notify.subject')]]"
+                    value="{{notify.subject}}" minlength="3" maxlength="50"
+                    auto-validate required></mostly-input>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="flex">
+            <mostly-textarea name="message" label="[[i18n('play.mission.notify.message')]]"
+                    value="{{notify.message}}" minlength="10" maxlength="300"
+                    auto-validate required></mostly-textarea>
+          </div>
+        </div>
+
+        <!-- target type -->
+        <div class="form-row">
+          <div class="flex">
+            <mostly-select
+                    label="[[i18n('play.mission.notify.target.type')]]"
+                    placeholder="[[i18n('play.mission.notify.target.type.placeholder')]]"
+                    selected="{{notify.target.type}}"
+                    attr-for-selected="name">
+              <template is="dom-repeat" items="[[targetTypes]]" as="item">
+                <paper-item name="[[item]]">[[p18n('play.mission.notify.target.type', item)]]</paper-item>
+              </template>
+            </mostly-select>
+          </div>
+          <div class="form-actions">
+            <iron-icon icon="mostly:remove" class="remove" on-tap="_removeNotify"></iron-icon>
+          </div>
+        </div>
+
+        <!-- target requirements -->
+        <label role="widget">[[i18n('play.mission.notify.target.requires')]]</label>
+        <playing-edit-conditions data="{{notify.target.requires}}"></playing-edit-conditions>
+
+        <!-- targets -->
+        <template is="dom-if" if="[[notify.target.type]]" restamp>
+          <div class="layout vertical">
+            <div class="layout horizontal center">
+              <h3 class="flex">[[i18n('play.mission.notify.target.roles')]]</h3>
+              <paper-button noink id="addRole" class="flex-end"
+                      on-tap="_addRole" disabled$="[[!_hasAnotherRole(notify.target.roles.splices)]]">
+                <iron-icon icon="mostly:add"></iron-icon> [[i18n('play.mission.notify.target.roles.create')]]
+              </paper-button>
+            </div>
+
+            <!-- target roles -->
+            <template is="dom-repeat" items="{{notify.target.roles}}" as="role">
+              <div class="form-row">
+                <div class="flex">
+                  <mostly-select id="laneSelector"
+                          label="[[i18n('play.mission.activity.lane')]]"
+                          placeholder="[[i18n('play.mission.activity.lane.placeholder')]]"
+                          selected="{{role.lane}}"
+                          attr-for-selected="name"
+                          required>
+                    <template is="dom-repeat" items="[[lanes]]">
+                      <paper-item name="[[item.name]]">[[item.name]]</paper-item>
+                    </template>
+                  </mostly-select>
+                </div>
+                <div class="flex">
+                  <mostly-select id="roleSelector"
+                          label="[[i18n('play.mission.notify.target.role')]]"
+                          placeholder="[[i18n('play.mission.notify.target.role.placeholder')]]"
+                          selected="{{role.role}}"
+                          attr-for-selected="name"
+                          required>
+                    <template is="dom-repeat" items="[[targetRoles]]" as="item">
+                      <paper-item name="[[item]]">[[p18n('play.mission.notify.target.role', item)]]</paper-item>
+                    </template>
+                  </mostly-select>
+                </div>
+                <div class="form-actions">
+                  <iron-icon icon="mostly:remove" class="remove" data-index="[[index]]" on-tap="_removeRole"></iron-icon>
+                </div>
+              </div>
+            </template>
+
+          </div>
+        </template>
+
+      </div>
+    </mostly-collapse-button>
+
+  </template>
+
+  <script>
+    class PlayingEditNotifyTarget extends Polymer.mixinBehaviors(
+        [Mostly.I18nBehavior, Playing.MissionBehavior], Polymer.Element) {
+
+      static get is() { return 'playing-edit-notify-target' };
+
+      static get properties() {
+        return {
+          /**
+           * The notify object
+           */
+          notify: {
+            type: Object,
+            value: {},
+            notify: true
+          },
+
+          /**
+           * Lanes array
+           */
+          lanes: {
+            type: Array,
+            value: []
+          },
+
+          opened: {
+            type: Boolean,
+            value: false
+          }
+        }
+      }
+
+      _removeNotify() {
+        this.set('notify', { target: { requires: [], roles: [] } });
+      }
+
+      _addRole() {
+        this.set('notify.target.roles', this.notify.target.roles || []);
+        this.push('notify.target.roles', { lane: null, role: null });
+      }
+
+      _removeRole(e) {
+        this.splice('notify.target.roles', e.target.dataIndex, 1);
+      }
+
+      _hasAnotherRole() {
+        if (this.notify && this.lanes && this.notify.target.roles) {
+          return this.notify.target.roles.length < this.lanes.length;
+        }
+      }
+    }
+
+    customElements.define(PlayingEditNotifyTarget.is, PlayingEditNotifyTarget);
+  </script>
+</dom-module>
