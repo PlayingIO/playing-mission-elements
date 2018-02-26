@@ -1,5 +1,6 @@
 <link rel="import" href="../../playing-rule-elements/playing-rule/playing-view-conditions.html">
 <link rel="import" href="../behaviors/playing-mission-behavior.html">
+<link rel="import" href="playing-view-lanes.html">
 
 <!--
 An element for displaying mission data.
@@ -39,13 +40,7 @@ Example:
           </template>
         </div>
         <div class="flex">
-          <label role="widget">[[i18n('play.mission.lanes')]]</label>
-          <template is="dom-repeat" items="[[mission.lanes]]" as="item">
-            <mostly-tag>
-              [[item.name]]
-              <template is="dom-if" if="[[item.default]]"><spanc class="red">*</span></template>
-            </mostly-tag>
-          </template>
+          <playing-view-lanes data="[[mission.lanes]]"></playing-view-lanes>
         </div>
       </div>
     </div>
