@@ -5,7 +5,7 @@ An element for displaying mission lanes
 
 Example:
 
-    <playing-view-lanes data=[[lanes]]></playing-view-lanes>
+    <playing-view-lanes lanes=[[lanes]]></playing-view-lanes>
 
 @group Playing Elements
 @element playing-view-lanes
@@ -23,14 +23,14 @@ Example:
     </style>
 
     <label role="widget">[[i18n('play.mission.lanes')]]</label>
-    <template is="dom-repeat" items="[[data]]" as="item">
+    <template is="dom-repeat" items="[[lanes]]" as="item">
       <mostly-tag>
         [[item.name]]
         <template is="dom-if" if="[[item.default]]"><spanc class="red">*</span></template>
       </mostly-tag>
     </template>
 
-    <template is="dom-if" if=[[!data.length]]>
+    <template is="dom-if" if=[[!lanes.length]]>
       <div class="form-row">
         <div class="empty-result">[[i18n('play.mission.lanes.empty')]]</div>
       </div>
@@ -51,7 +51,7 @@ Example:
           /**
            * The lanes array to be displayed.
            */
-          data: {
+          lanes: {
             type: Array,
             value: () => []
           }
