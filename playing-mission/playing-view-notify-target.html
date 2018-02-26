@@ -1,0 +1,71 @@
+<link rel="import" href="../../playing-rule-elements/playing-rule/playing-view-conditions.html">
+<link rel="import" href="../behaviors/playing-mission-behavior.html">
+
+<!--
+An element for displaying notify target data.
+
+Example:
+
+    <playing-view-notify-target notify=[[notify]] new></playing-view-notify-target>
+
+@group Playing Elements
+@element playing-view-notify-target
+-->
+<dom-module id="playing-view-notify-target">
+  <template>
+    <style include="mostly-styles playing-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div class="layout vertical">
+      <div hidden$="[[!notify.target.type]]">
+        <iron-icon class="heading" icon="playing:tick"></iron-icon>
+        [[p18n('play.mission.notify.subject.desc', notify.target.type, notify.subject)]]
+      </div>
+
+      <playing-view-conditions data="[[notify.target.requires]]"></playing-view-conditions>
+
+      <div hidden$="[[isEmpty(notify.target.roles)]]">
+        <iron-icon class="heading" icon="playing:tick"></iron-icon>
+        [[i18n('play.mission.notify.target.roles.desc')]]
+        <template is="dom-repeat" items="[[notify.target.roles]]" as="role">
+          <mostly-tag>[[role.lane]]/[[p18n('play.mission.notify.target.role', role.role)]]</mostly-tag>
+        </template>
+      </div>
+    </div>
+
+
+  </template>
+
+  <script>
+    class PlayingViewNotifyTarget extends Polymer.mixinBehaviors(
+        [Mostly.I18nBehavior, Playing.MissionBehavior], Polymer.Element) {
+
+      static get is() { return 'playing-view-notify-target' };
+
+      static get properties() {
+        return {
+          /**
+           * The notify object
+           */
+          notify: {
+            type: Object,
+            value: {}
+          },
+
+          /**
+           * Lanes array
+           */
+          lanes: {
+            type: Array,
+            value: []
+          }
+        }
+      }
+    }
+
+    customElements.define(PlayingViewNotifyTarget.is, PlayingViewNotifyTarget);
+  </script>
+</dom-module>
