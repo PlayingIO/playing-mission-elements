@@ -25,7 +25,7 @@ Example:
         [[p18n('play.mission.notify.subject.desc', notify.target.type, notify.subject)]]
       </div>
 
-      <playing-view-conditions data="[[notify.target.requires]]"></playing-view-conditions>
+      <playing-view-conditions requires="[[notify.target.requires]]"></playing-view-conditions>
 
       <div hidden$="[[isEmpty(notify.target.roles)]]">
         <iron-icon class="heading" icon="playing:tick"></iron-icon>
