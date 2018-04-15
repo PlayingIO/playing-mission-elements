@@ -9,7 +9,7 @@ An element for creating and editing mission activities data.
 
 Example:
 
-    <playing-edit-activities data=[[activites]] new></playing-edit-activities>
+    <playing-edit-activities data=[[activities]] new></playing-edit-activities>
 
 @group Playing Elements
 @element playing-edit-activities
@@ -71,7 +71,7 @@ Example:
                       on-selected-changed="_typeChanged"
                       attr-for-selected="name"
                       no-label-float required>
-                <template is="dom-repeat" items="[[activiteTypes]]">
+                <template is="dom-repeat" items="[[activityTypes]]">
                   <paper-item name="[[item]]">[[p18n('play.mission.activity.type', item)]]</paper-item>
                 </template>
               </mostly-select>

@@ -9,7 +9,7 @@
   Playing.MissionBehavior = [Mostly.FuncBehavior, {
 
     properties: {
-      activiteTypes: {
+      activityTypes: {
         type: Array,
         value: ['single', 'sequential', 'parallel', 'exclusive']
       },
@@ -47,7 +47,7 @@
     emptyMission() {
       return {
         access: [],
-        activites: [],
+        activities: [],
         lanes: [{ name: 'Main', default: true }],
         notify: { target: { requires: [], roles: [] } },
         settings: {}
