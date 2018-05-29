@@ -1,7 +1,7 @@
-Playing Game Mission Web Components
-===================================
+Playing Game Missions Web Components
+====================================
 
-Game mission management web components for playful applications.
+Game missions management web components for playful applications.
 
 # Usage
 

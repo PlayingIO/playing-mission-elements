@@ -1,6 +1,6 @@
 {
   "name": "playing-mission-elements",
-  "description": "Game mission management web components for playful applications",
+  "description": "Game missions management web components for playful applications",
   "version": "1.0.4",
   "license": "MIT",
   "devDependencies": {
