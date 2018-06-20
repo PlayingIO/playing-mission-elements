@@ -205,7 +205,7 @@ Example:
 
       ready() {
         super.ready();
-        this.$.editMissionForm.addEventListener('iron-form-presubmit', (event) => {
+        this.$.editMissionForm.addEventListener('iron-form-presubmit', event => {
           event.preventDefault();
           this._saveMission();
         });
@@ -213,7 +213,7 @@ Example:
 
       _fetch() {
         if (typeof this.mission === 'string') {
-          this.$.request.get().then((response) => {
+          this.$.request.get().then(response => {
             this.mission = response.data;
             this.origMission = this.fp.clone(this.mission);
           });
@@ -245,7 +245,7 @@ Example:
         this.page = 'viewer';
         var editedMission = JSON.parse(JSON.stringify(this.mission));
         this.$.editRequest.data = editedMission;
-        this.$.editRequest.patch().then((response) => {
+        this.$.editRequest.patch().then(response => {
           this.mission = response.data;
           this.origMission = this.fp.clone(this.mission);
           this._toast(this.i18n('play.mission.updated'));
@@ -258,7 +258,7 @@ Example:
 
       _deleteMission() {
         this.$.deleteMissionDialog.toggle();
-        this.$.editRequest.remove().then((response) => {
+        this.$.editRequest.remove().then(response => {
           this.fire('playing-mission-deleted', this.mission);
           this._goHome();
         });
